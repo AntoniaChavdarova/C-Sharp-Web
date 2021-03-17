@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SUS.HTTP;
+using System;
 
 namespace MyFirstMvcApp
 {
@@ -6,7 +7,17 @@ namespace MyFirstMvcApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var server = new HttpServer();
+            server.Start(80);
+
+            server.AddRoute("/", HomePage);
+        }
+
+        static HttpResponse HomePage(HttpRequest request)
+        {
+
         }
     }
+
+   
 }
