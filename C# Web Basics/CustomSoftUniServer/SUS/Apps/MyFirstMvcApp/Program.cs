@@ -1,21 +1,24 @@
 ﻿using SUS.HTTP;
 using System;
+using System.Threading.Tasks;
 
 namespace MyFirstMvcApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            var server = new HttpServer();
-            server.Start(80);
+            IHttpServer server = new HttpServer();
+           
 
             server.AddRoute("/", HomePage);
+            await server.StartAsync(80);
         }
+
 
         static HttpResponse HomePage(HttpRequest request)
         {
-
+            throw new NotImplementedException();
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -11,8 +12,6 @@ namespace SUS.HTTP
     public class HttpServer : IHttpServer
     {
         IDictionary<string, Func<HttpRequest, HttpResponse>> routeTable = new Dictionary<string, Func<HttpRequest, HttpResponse>>();
-
-
 
         public void AddRoute(string path, Func<HttpRequest, HttpResponse> action)
         {
@@ -67,14 +66,37 @@ namespace SUS.HTTP
                         }
 
                     }
+
+                    //byte[] => string(text)
+                    var requestAsString = Encoding.UTF8.GetString(data.ToArray());
+                    var request = new HttpRequest(requestAsString);
+                    Console.WriteLine(requestAsString);
+
+                    var responseHTML = "Wlecome!" + 
+                        request.Headers.FirstOrDefault(x => x.Name == "UserAgent")?.Value;
+                    var responseBodyBytes = Encoding.UTF8.GetBytes(responseHTML);
+
+
+                    var responseHTTP = "HTTP/1.1 200 Ok" + HttpConstants.NewLine +
+                        "Server: SUS Server 1.0" + HttpConstants.NewLine +
+                        "Content-Type: text/html" + HttpConstants.NewLine +
+                        "Content-Length " + responseBodyBytes.Length + HttpConstants.NewLine + HttpConstants.NewLine;
+
+                    var responseHeaderBytes = Encoding.UTF8.GetBytes(responseHTTP);
+
+                    await stream.WriteAsync(responseHeaderBytes , 0 , responseHeaderBytes.Length);
+                    await stream.WriteAsync(responseBodyBytes ,0 , responseBodyBytes.Length);
+
+
+
                 }
 
-
+                tcpClient.Close();
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                Console.WriteLine(e); ;
             }
         }
     }
