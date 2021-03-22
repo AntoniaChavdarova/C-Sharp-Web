@@ -12,43 +12,18 @@ namespace MyFirstMvcApp
         static async Task Main(string[] args)
         {
             IHttpServer server = new HttpServer();
-           
 
-            server.AddRoute("/", HomePage);
+            server.AddRoute("/favicon.ico", Favicon);
             server.AddRoute("/about", About);
-            server.AddRoute("/favicon.ico", FavIcon);
+            server.AddRoute("/users/login", Login);
+            server.AddRoute("/users/register", Register);
+            // Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "http://localhost/");
             await server.StartAsync(80);
         }
 
-        private static HttpResponse About(HttpRequest request)
-        {
-            var responseHTML = "About Us...";
-                
-            var responseBodyBytes = Encoding.UTF8.GetBytes(responseHTML);
-            var response = new HttpResponse("text/html", responseBodyBytes);
+      
+     
 
-
-            return response;
-        }
-
-        static HttpResponse HomePage(HttpRequest request)
-        {
-            var responseHTML = "Welcome!" +
-                request.Headers.FirstOrDefault(x => x.Name == "UserAgent")?.Value;
-            var responseBodyBytes = Encoding.UTF8.GetBytes(responseHTML);
-            var response = new HttpResponse("text/html", responseBodyBytes);
-         
-
-            return response;
-
-        }
-
-        static HttpResponse FavIcon(HttpRequest request)
-        {
-            var fileBytes = File.ReadAllBytes("wwwroot/favicon.ico");
-            var response = new HttpResponse("image/vnd.microsoft.icon", fileBytes);
-            return response;
-        }
 
     }
 
