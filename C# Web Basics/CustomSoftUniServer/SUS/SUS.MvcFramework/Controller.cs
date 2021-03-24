@@ -12,7 +12,7 @@ namespace SUS.MvcFramework
     {
         private SusViewEngine viewEngine;
 
-        public HttpRequest Request { get; internal set; }
+        public HttpRequest Request { get; set; }
 
         public Controller()
         {

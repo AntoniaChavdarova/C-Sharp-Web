@@ -17,11 +17,11 @@ namespace MyFirstMvcApp.Data
 
         }
 
-        DbSet<User> Users { get; set; }
+        public  DbSet<User> Users { get; set; }
 
-        DbSet<Card> Cards { get; set; }
+        public DbSet<Card> Cards { get; set; }
 
-        DbSet<UserCard> UserCards { get; set; }
+        public DbSet<UserCard> UserCards { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
