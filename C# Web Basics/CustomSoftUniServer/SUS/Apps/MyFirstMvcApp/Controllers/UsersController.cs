@@ -8,12 +8,13 @@ namespace MyFirstMvcApp.Controllers
 {
     public class UsersController : Controller
     {
-        public HttpResponse Register(HttpRequest request)
+        public HttpResponse Register()
         {
             return this.View();
         }
 
-        public HttpResponse Login(HttpRequest request)
+        [HttpPost]
+        public HttpResponse Login()
         {
             return this.View();
         }

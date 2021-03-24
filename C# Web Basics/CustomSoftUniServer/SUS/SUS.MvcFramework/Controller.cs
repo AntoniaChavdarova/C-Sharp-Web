@@ -12,6 +12,8 @@ namespace SUS.MvcFramework
     {
         private SusViewEngine viewEngine;
 
+        public HttpRequest Request { get; internal set; }
+
         public Controller()
         {
             this.viewEngine = new SusViewEngine();
@@ -21,9 +23,7 @@ namespace SUS.MvcFramework
             object viewModel = null,
             [CallerMemberName] string viewPath = null)
         {
-            var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.html");
-            layout = layout.Replace("@RenderBody()", "____VIEW_GOES_HERE____");
-            layout = this.viewEngine.GetHtml(layout, viewModel);
+            
 
             var viewContent = System.IO.File.ReadAllText(
                 "Views/" +
@@ -31,7 +31,11 @@ namespace SUS.MvcFramework
                 "/" + viewPath + ".html");
             viewContent = this.viewEngine.GetHtml(viewContent, viewModel);
 
-            
+            var layout = System.IO.File.ReadAllText("Views/Shared/_Layout.html");
+            layout = layout.Replace("@RenderBody()", "____VIEW_GOES_HERE____");
+            layout = this.viewEngine.GetHtml(layout, viewModel);
+
+
             var responseHtml = layout.Replace("____VIEW_GOES_HERE____", viewContent);
 
             var responseBodyBytes = Encoding.UTF8.GetBytes(responseHtml);
