@@ -1,8 +1,8 @@
-﻿namespace WebApplication.Web.Controllers
+﻿namespace MyRecipes.Web.Controllers
 {
     using System.Diagnostics;
 
-    using WebApplication.Web.ViewModels;
+    using MyRecipes.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +11,6 @@
         public IActionResult Index()
         {
             return this.View();
-        }
-
-        public IActionResult Exception()
-        {
-            throw new System.Exception();
         }
 
         public IActionResult Privacy()
