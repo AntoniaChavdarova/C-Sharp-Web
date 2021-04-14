@@ -1,9 +1,12 @@
 ﻿namespace MyRecipes.Services.Data
 {
-using MyRecipes.Web.ViewModels.Home;
+    using MyRecipes.Web.ViewModels.Home;
+
     public interface IGetCountsService
     {
         //1.Use view model
+        //2.Dtos
+        //3.Tuples
 
         IndexViewModel GetCount();
     }
