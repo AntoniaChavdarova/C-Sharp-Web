@@ -7,7 +7,7 @@
     public class CreateRecipeInputModel
     {
         [Required]
-        [MinLength(4)]
+        [MinLength(3)]
         public string Name { get; set; }
 
         [Required]
