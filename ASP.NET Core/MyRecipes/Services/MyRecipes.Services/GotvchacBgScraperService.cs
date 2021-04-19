@@ -86,7 +86,7 @@
                     PreparatingTime = recipe.PreparationTime,
                     CookingTime = recipe.CookingTime,
                     PortionsCount = recipe.PortionsCount,
-                    //OriginalUrl = recipe.OriginalUrl,
+                    OriginalUrl = recipe.OriginalUrl,
                     CategoryId = categoryId,
                 };
 

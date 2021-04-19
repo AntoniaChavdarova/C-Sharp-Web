@@ -23,7 +23,7 @@ namespace MyRecipes.Web.Controllers
 
         public async Task<IActionResult> Add()
         {
-            await this.gotvachBgScraperService.PopulateDbWithRecipesAsync(200);
+            await this.gotvachBgScraperService.PopulateDbWithRecipesAsync(300);
 
             return this.RedirectToAction("Index");
         }
