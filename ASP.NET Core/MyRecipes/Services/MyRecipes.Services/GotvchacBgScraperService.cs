@@ -118,8 +118,8 @@
 
                 var image = new Image
                 {
-                    Extension = recipe.OriginalUrl,
-                    RecipeId = newRecipe.Id,
+                    RemoteImageUrl = recipe.OriginalUrl,
+                    Recipe = newRecipe,
                 };
 
                 await this.imagesRepository.AddAsync(image);

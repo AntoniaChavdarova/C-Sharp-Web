@@ -1,5 +1,6 @@
 ﻿namespace MyRecipes.Web.Controllers
-{ 
+{
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -34,9 +35,30 @@
                 return this.View(input);
             }
 
-            await this.recipesService.CreateAsync(input);
+            //moje i chres usermanager : var user = await this.userManager.GetUserAsync(this.User);
+
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            await this.recipesService.CreateAsync(input , userId);
 
             return this.Redirect("/");
+        }
+
+        public IActionResult All(int id = 1)
+        {
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
+            const int ItemsPerPage = 12;
+            var viewModel = new RecipesListViewModel
+            {
+                ItemsPerPage = ItemsPerPage,
+                PageNumber = id,
+                RecipesCount = this.recipesService.GetCount(),
+                Recipes = this.recipesService.GetAll<RecipeInListViewModel>(id, ItemsPerPage),
+            };
+            return this.View(viewModel);
         }
     }
 }
