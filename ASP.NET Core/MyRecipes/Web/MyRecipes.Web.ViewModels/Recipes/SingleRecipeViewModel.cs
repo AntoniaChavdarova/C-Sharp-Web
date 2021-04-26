@@ -23,7 +23,7 @@ namespace MyRecipes.Web.ViewModels.Recipes
 
         public string Instructions { get; set; }
 
-        public TimeSpan PreparationTime { get; set; }
+        public TimeSpan PreparatingTime { get; set; }
 
         public TimeSpan CookingTime { get; set; }
 
