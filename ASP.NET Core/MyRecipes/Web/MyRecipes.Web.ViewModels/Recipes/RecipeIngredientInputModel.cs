@@ -2,10 +2,11 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using MyRecipes.Data.Models;
+    using MyRecipes.Services.Mapping;
+
     public class RecipeIngredientInputModel
     {
-        //[Required]
-        //[MinLength(3)]
         public string Name { get; set; }
 
         [Required]

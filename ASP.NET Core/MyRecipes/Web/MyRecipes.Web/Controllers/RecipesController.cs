@@ -2,7 +2,7 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using MyRecipes.Services.Data;
@@ -19,6 +19,7 @@
             this.categoriesService = categoriesService;
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             var viewModel = new CreateRecipeInputModel();
@@ -26,6 +27,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeInputModel input)
         {
@@ -38,10 +40,12 @@
             //moje i chres usermanager : var user = await this.userManager.GetUserAsync(this.User);
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            await this.recipesService.CreateAsync(input , userId);
+            await this.recipesService.CreateAsync(input, userId);
 
             return this.Redirect("/");
         }
+
+        // inache gurmi s tova che id ako ne e podaden e nula
 
         public IActionResult All(int id = 1)
         {

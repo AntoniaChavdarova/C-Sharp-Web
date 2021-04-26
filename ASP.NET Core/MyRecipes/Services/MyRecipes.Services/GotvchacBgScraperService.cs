@@ -8,7 +8,6 @@
     using System.Text;
     using System.Threading.Tasks;
 
-
     using HtmlAgilityPack;
     using MyRecipes.Data.Common.Repositories;
     using MyRecipes.Data.Models;
@@ -28,8 +27,7 @@
            IDeletableEntityRepository<Ingredient> ingridientsRepository,
            IDeletableEntityRepository<Recipe> recipiesRepository,
            IRepository<RecipeIngredient> recipeIngredientsRepository,
-           IRepository<Image> imagesRepository
-          )
+           IRepository<Image> imagesRepository)
         {
             this.categoriesRepository = categoriesRepository;
             this.ingridientsRepository = ingridientsRepository;
@@ -44,7 +42,6 @@
         {
             var concurentBag = new ConcurrentBag<RecipeDto>();
             HttpStatusCode statusCode = HttpStatusCode.OK;
-
 
             this.web.PostResponse += (request, response) =>
             {
@@ -125,6 +122,39 @@
                 await this.imagesRepository.AddAsync(image);
                 await this.imagesRepository.SaveChangesAsync();
             }
+        }
+
+        private static string GetCategoryName(HtmlDocument htmlDoc)
+        {
+            var category = htmlDoc
+                .DocumentNode
+                .SelectNodes(@"//div[@class='breadcrumb']");
+            if (category != null)
+            {
+                return category
+                    .Select(x => x.InnerText)
+                    .FirstOrDefault()
+                   ?.Split(" »")
+                    .Reverse()
+                    .ToList()[1];
+            }
+
+            return string.Empty;
+        }
+
+        private static string GetRecipeName(HtmlDocument htmlDoc)
+        {
+            var name = htmlDoc
+                .DocumentNode
+                .SelectNodes(@"//div[@class='combocolumn mr']/h1");
+
+            if (name != null)
+            {
+                return name.Select(r => r.InnerText)
+                    .FirstOrDefault().ToString();
+            }
+
+            return string.Empty;
         }
 
         private async Task<int> GetOrCreateIngridientAsync(string name)
@@ -214,7 +244,6 @@
                 {
                     var preparation = timing[0].InnerText.Replace("Приготвяне", "").Split(" ").FirstOrDefault();
                     recipe.PreparationTime = TimeSpan.FromMinutes(int.Parse(preparation));
-
                 }
                 else
                 {
@@ -229,12 +258,14 @@
             var portionsCount = 0;
             if (portions != null)
             {
-                int.TryParse(portions.Select(x => x.InnerHtml)
+                int.TryParse(
+                    portions.Select(x => x.InnerHtml)
                     .LastOrDefault().Replace("Порции", string.Empty)
                        .Replace("бр", string.Empty)
                        .Replace("бр.", string.Empty)
                        .Replace("броя", string.Empty)
-                       .Replace("бройки", string.Empty), out portionsCount);
+                       .Replace("бройки", string.Empty),
+                    out portionsCount);
             }
 
             recipe.PortionsCount = portionsCount;
@@ -248,7 +279,7 @@
                 .FirstOrDefault()
                 ?.GetAttributeValue("href", "unknown");
 
-            var link = web.Load(urlPhoros);
+            var link = this.web.Load(urlPhoros);
             var photosUrlsToLoad = link
                 .DocumentNode
                 .SelectNodes(@"//div[@class='main']/div/img");
@@ -270,7 +301,6 @@
 
             recipe.OriginalUrl = photos.FirstOrDefault();
 
-
             var ingredientsParse = htmlDoc
          .DocumentNode
          .SelectNodes(@"//section[@class='products new']/ul/li");
@@ -287,39 +317,5 @@
 
             return recipe;
         }
-
-        private static string GetCategoryName(HtmlDocument htmlDoc)
-        {
-            var category = htmlDoc
-                .DocumentNode
-                .SelectNodes(@"//div[@class='breadcrumb']");
-            if (category != null)
-            {
-                return category
-                    .Select(x => x.InnerText)
-                    .FirstOrDefault()
-                   ?.Split(" »")
-                    .Reverse()
-                    .ToList()[1];
-            }
-
-            return string.Empty;
-        }
-
-        private static string GetRecipeName(HtmlDocument htmlDoc)
-        {
-            var name = htmlDoc
-                .DocumentNode
-                .SelectNodes(@"//div[@class='combocolumn mr']/h1");
-
-            if (name != null)
-            {
-                return name.Select(r => r.InnerText)
-                    .FirstOrDefault().ToString();
-            }
-
-            return string.Empty;
-        }
-
     }
 }
