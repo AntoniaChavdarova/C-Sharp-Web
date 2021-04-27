@@ -16,5 +16,7 @@
         T GetById<T>(int id);
 
         int GetCount();
+
+        Task UpdateAsync(int id, EditRecipeInputModel input);
     }
 }

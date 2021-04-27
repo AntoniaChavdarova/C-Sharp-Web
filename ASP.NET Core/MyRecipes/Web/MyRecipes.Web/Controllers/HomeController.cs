@@ -21,7 +21,7 @@
         public IActionResult Index()
         {
             var viewModel = this.service.GetCount();
-            viewModel.RandomRecipe = this.recipesService.GetRandom<IndexPageRecipeViewModel>(10);
+            viewModel.RandomRecipe = this.recipesService.GetRandom<IndexPageRecipeViewModel>(8);
 
             return this.View(viewModel);
         }

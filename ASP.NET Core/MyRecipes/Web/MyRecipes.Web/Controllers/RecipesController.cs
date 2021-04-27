@@ -6,7 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
-
+    using MyRecipes.Common;
     using MyRecipes.Services.Data;
     using MyRecipes.Web.ViewModels.Recipes;
 
@@ -60,6 +60,29 @@
             }
 
             return this.Redirect("/");
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult Edit(int id)
+        {
+            var input = this.recipesService.GetById<EditRecipeInputModel>(id);
+            input.CategoriesItems = this.categoriesService.GetAllAsKeyValuePairs();
+            return this.View(input);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public async Task<IActionResult> Edit(int id, EditRecipeInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+              input.CategoriesItems = this.categoriesService.GetAllAsKeyValuePairs();
+                return this.View(input);
+            }
+
+            await this.recipesService.UpdateAsync(id, input);
+
+            return this.RedirectToAction(nameof(this.ById), new { id });
         }
 
         // inache gurmi s tova che id ako ne e podaden e nula
