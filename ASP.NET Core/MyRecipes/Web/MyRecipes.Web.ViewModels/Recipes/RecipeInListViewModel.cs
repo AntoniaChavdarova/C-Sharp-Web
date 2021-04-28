@@ -1,5 +1,4 @@
-﻿
-namespace MyRecipes.Web.ViewModels.Recipes
+﻿namespace MyRecipes.Web.ViewModels.Recipes
 {
     using System.Linq;
 

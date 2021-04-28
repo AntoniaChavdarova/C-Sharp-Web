@@ -87,6 +87,7 @@
             services.AddTransient<IRecipesService, RecipesService>();
             services.AddTransient<IGotvachBgScraperService, GotvchacBgScraperService>();
             services.AddTransient<IVoteService, VoteService>();
+            services.AddTransient<ISearchService, SearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
