@@ -39,6 +39,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="Create">Create Recipe</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Chat">Group Chat</a>
+                                </li>
                             }
                             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                             {
