@@ -128,7 +128,7 @@
         {
             var category = htmlDoc
                 .DocumentNode
-                .SelectNodes(@"//div[@class='breadcrumb']");
+                .SelectNodes(@"//div[@class='breadcrumb2']");
             if (category != null)
             {
                 return category
@@ -136,7 +136,7 @@
                     .FirstOrDefault()
                    ?.Split(" »")
                     .Reverse()
-                    .ToList()[1];
+                    .ToList()[2];
             }
 
             return string.Empty;
@@ -214,7 +214,7 @@
 
             var instrudctionsToLoad = htmlDoc
           .DocumentNode
-          .SelectNodes(@"//div[@class='text']/p")
+          .SelectNodes(@"//div[@class='text short']")
           .Select(x => x.InnerText)
          .ToList();
 
@@ -254,7 +254,7 @@
 
             var portions = htmlDoc
                .DocumentNode
-               .SelectNodes(@"//div[@class='feat']/span");
+               .SelectNodes(@"//div[@class='top portion']");
             var portionsCount = 0;
             if (portions != null)
             {

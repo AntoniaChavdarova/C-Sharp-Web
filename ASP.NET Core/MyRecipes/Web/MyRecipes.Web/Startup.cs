@@ -101,7 +101,10 @@
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+               //dbContext.Database.EnsureDeleted();
                 dbContext.Database.Migrate();
+               // dbContext.Database.EnsureCreated();
+
                 new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 
